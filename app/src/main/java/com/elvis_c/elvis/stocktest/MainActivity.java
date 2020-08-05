@@ -1,5 +1,6 @@
 package com.elvis_c.elvis.stocktest;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     Button button;
     StockInfo stockInfo;
+    DataManagement dataManagement;
 
 
     @Override
@@ -26,26 +28,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.tv_test);
         button = findViewById(R.id.btn_test);
-        DataManagement.getInstance(getApplicationContext());
+        dataManagement = DataManagement.getInstance(getApplicationContext());
+        dataManagement.registerCsvDownloadCallback(csvDownloadCallBack);
         Log.d(TAG, "onCreate, test 1");
-        String url = DataManagement.urlData + DataManagement.test;
-        syncData = new SyncData();
-        syncData.setmCtx(getApplicationContext());
-        syncData.execute(url);
+//        String url = DataManagement.urlData + DataManagement.test;
+//        syncData = new SyncData();
+//        syncData.setmCtx(getApplicationContext());
+//        syncData.execute(url);
         new Thread(runnable).start();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stockInfo = DataManagement.getInstance(getApplicationContext()).getStockInfo();
+                stockInfo = dataManagement.getStockInfo();
                 textView.setText(stockInfo.getRtcode());
-                DataManagement.getInstance(getApplicationContext()).readCsvFile();
-                for (int i = 0; i < DataManagement.getInstance(getApplicationContext()).getAllCompanyCodes().size(); i++) {
-                    Log.d(TAG, "Test, company code = " + DataManagement.getInstance(getApplicationContext()).getAllCompanyCodes().get(i).getCompanyCode());
-                    Log.d(TAG, "Test, company name = " + DataManagement.getInstance(getApplicationContext()).getAllCompanyCodes().get(i).getCompanyName());
+                dataManagement.readCsvFile();
+                for (int i = 0; i < dataManagement.getAllCompanyCodes().size(); i++) {
+                    Log.d(TAG, "Test, company code = " + dataManagement.getAllCompanyCodes().get(i).getCompanyCode());
+                    Log.d(TAG, "Test, company name = " + dataManagement.getAllCompanyCodes().get(i).getCompanyName());
                 }
             }
         });
 
+    }
+
+    DataManagement.CsvDownloadCallBack csvDownloadCallBack = new DataManagement.CsvDownloadCallBack() {
+        @Override
+        public void downloadFinish() {
+            gotoNextPage();
+        }
+    };
+
+    private void gotoNextPage(){
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -60,4 +76,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dataManagement.unregisterCsvDownloadCallback();
+    }
 }

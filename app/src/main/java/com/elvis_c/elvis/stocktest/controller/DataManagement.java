@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -28,11 +29,13 @@ public class DataManagement {
     private Context mContext = null;
     public static String urlData = "https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=";
     public static String test = "tse_1101.tw";
+    public static String twIndex = "tse_t01.tw";//發行量加權股價指數
     public static String ALL_COMPANY_CSV = "http://moneydj.emega.com.tw/js/StockTable.xls";
     public static String ALL_COMPANY_CSV2 = "https://quality.data.gov.tw/dq_download_csv.php?nid=18419&md5_url=9791ec942cbcb925635aa5612ae95588";
     public static String CsvFloder = "/csvData";
     public static String CompanyCsv = "/CompanyCsv.csv";
     public static String DownloadDate = "/downloadDate.txt";
+    public static String stockindextUrl = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=%s&type=IND";
 
     private StockInfo stockInfo;
     private ArrayList<AllCompanyCode> allCompanyCodes = new ArrayList<>();
@@ -43,6 +46,8 @@ public class DataManagement {
     //type ALL, 1 ~ 20
     //https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=20200401&type=01&_=1586060606932
     //https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=20200401&type=ALL&_=1586060606934
+
+    private CsvDownloadCallBack mCsvDownloadCallBack;
 
     public static DataManagement getInstance(Context context){
         if (mInstance == null) {
@@ -150,6 +155,7 @@ public class DataManagement {
                 }
             }
         }
+        mInstance.mCsvDownloadCallBack.downloadFinish();
 
     }
 
@@ -167,17 +173,23 @@ public class DataManagement {
     }
 
     private String readDateFromTxt(File file){
-        BufferedReader bufferedReader = null;
-        String readString = "";
+        String value = "";
         try {
-            bufferedReader = new BufferedReader(new FileReader(file));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+            String readString = "";
+            Log.d(TAG, "readDateFromTxt, bufferedReader.readLine() = " + bufferedReader.readLine());
             while ((readString = bufferedReader.readLine()) != null) {
                 Log.d(TAG, "readDateFromTxt, readString = " + readString);
+                value = readString;
+                Log.d(TAG, "readDateFromTxt, value = " + value);
             }
+            bufferedReader.close();
         } catch (Exception e) {
             e.printStackTrace();
+//            return readString;
         }
-        return readString;
+        Log.d(TAG, "readDateFromTxt, value = " + value);
+        return value;
     }
 
     public boolean checkCsvDateToDownload(){
@@ -197,6 +209,29 @@ public class DataManagement {
             Log.d(TAG, "checkCsvDateToDownload, file not exists");
             return true;
         }
+    }
+
+    public String currentTime2DateString(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String DateStr = "";
+        try {
+            DateStr = dateFormat.format(System.currentTimeMillis());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return DateStr;
+    }
+
+    public void registerCsvDownloadCallback(CsvDownloadCallBack csvDownloadCallBack){
+        mCsvDownloadCallBack = csvDownloadCallBack;
+    }
+
+    public void unregisterCsvDownloadCallback(){
+        mCsvDownloadCallBack = null;
+    }
+
+    public interface CsvDownloadCallBack{
+        void downloadFinish();
     }
 
 }

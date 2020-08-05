@@ -15,6 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class SyncData extends AsyncTask<String, String, String> {
     private String TAG = getClass().getSimpleName();
     private Context mCtx;
+    private SyncDataCallback mSyncDataCallback;
 
     public void setmCtx(Context mCtx) {
         this.mCtx = mCtx;
@@ -63,9 +64,21 @@ public class SyncData extends AsyncTask<String, String, String> {
             Log.d(TAG, "onPostExecute, getSysDate = " + stockInfo.getQueryTime().getSysDate());
             Log.d(TAG, "onPostExecute, getC = " + stockInfo.getMsgArray().get(0).getC());
             DataManagement.getInstance(mCtx).setStockInfo(stockInfo);
-
+            mSyncDataCallback.SyncFinish();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void registerSyncDataCallback(SyncDataCallback syncDataCallback) {
+        mSyncDataCallback = syncDataCallback;
+    }
+
+    public void unregisterSyncDataCallback(){
+        mSyncDataCallback = null;
+    }
+
+    public interface SyncDataCallback{
+        void SyncFinish();
     }
 }
