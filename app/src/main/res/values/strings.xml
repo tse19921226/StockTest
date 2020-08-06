@@ -2,4 +2,7 @@
     <string name="app_name">StockTest</string>
 
     <string name="txt_loading">Loading...</string>
+    <string name="txt_stock_quotes">Stock quotes</string>
+    <string name="txt_optional_quotation">Optional quotation</string>
+    <string name="txt_setting">Setting</string>
 </resources>

@@ -29,7 +29,7 @@ public class DataManagement {
     private Context mContext = null;
     public static String urlData = "https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=";
     public static String test = "tse_1101.tw";
-    public static String twIndex = "tse_t01.tw";//發行量加權股價指數
+    public static String twIndex = "tse_t00.tw";//發行量加權股價指數
     public static String ALL_COMPANY_CSV = "http://moneydj.emega.com.tw/js/StockTable.xls";
     public static String ALL_COMPANY_CSV2 = "https://quality.data.gov.tw/dq_download_csv.php?nid=18419&md5_url=9791ec942cbcb925635aa5612ae95588";
     public static String CsvFloder = "/csvData";
@@ -177,7 +177,6 @@ public class DataManagement {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             String readString = "";
-            Log.d(TAG, "readDateFromTxt, bufferedReader.readLine() = " + bufferedReader.readLine());
             while ((readString = bufferedReader.readLine()) != null) {
                 Log.d(TAG, "readDateFromTxt, readString = " + readString);
                 value = readString;

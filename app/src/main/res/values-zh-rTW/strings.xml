@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="txt_loading">載入中...</string>
+    <string name="txt_stock_quotes">類股報價</string>
+    <string name="txt_optional_quotation">自選股價</string>
+    <string name="txt_setting">設定</string>
+
+</resources>

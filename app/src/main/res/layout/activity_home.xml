@@ -2,18 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:weightSum="3"
     android:orientation="vertical">
 
-    <com.elvis_c.elvis.stocktest.StockItemView
+    <com.elvis_c.elvis.stocktest.Common.StockItemView
         android:id="@+id/si_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"></RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:gravity="center">
+
+            <com.elvis_c.elvis.stocktest.Common.HomeItemView
+                android:id="@+id/hv_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemImage="@android:drawable/ic_menu_search"
+                app:itemText="@string/txt_stock_quotes"
+                app:itemTextSize="6sp"
+                app:itemTextColor="@android:color/white"
+                android:gravity="center"/>
+
+            <com.elvis_c.elvis.stocktest.Common.HomeItemView
+                android:id="@+id/hv_owns"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemImage="@android:drawable/ic_dialog_dialer"
+                app:itemText="@string/txt_optional_quotation"
+                app:itemTextSize="6sp"
+                app:itemTextColor="@android:color/white"
+                android:gravity="center"/>
+
+            <com.elvis_c.elvis.stocktest.Common.HomeItemView
+                android:id="@+id/hv_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemImage="@android:drawable/ic_menu_manage"
+                app:itemText="@string/txt_setting"
+                app:itemTextSize="6sp"
+                app:itemTextColor="@android:color/white"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

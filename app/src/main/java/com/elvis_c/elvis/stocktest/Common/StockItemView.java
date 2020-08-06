@@ -1,6 +1,7 @@
-package com.elvis_c.elvis.stocktest;
+package com.elvis_c.elvis.stocktest.Common;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.elvis_c.elvis.stocktest.Model.Company;
+import com.elvis_c.elvis.stocktest.R;
 
 public class StockItemView extends RelativeLayout implements View.OnClickListener {
     private String TAG = getClass().getSimpleName();
@@ -27,6 +29,20 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
         this.addView(view);
     }
 
+    public StockItemView(Context context, AttributeSet attrs){
+        super(context, attrs);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.stock_item, null);
+        this.addView(view);
+    }
+
+    public StockItemView(Context context, AttributeSet attrs, int defStyleAttr){
+        super(context, attrs, defStyleAttr);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.stock_item, null);
+        this.addView(view);
+    }
+
     public void initView(){
         tv_StockName = findViewById(R.id.tv_stockName);
         tv_StockId = findViewById(R.id.tv_stockId);
@@ -40,18 +56,18 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
         tv_StockName.setText(company.getN());
         tv_StockId.setText(company.getC());
         tv_StockPrice.setText(company.getZ());
-        tv_StockSpread.setText(String.valueOf(setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
+        tv_StockSpread.setText(String.valueOf(setSpread(Float.valueOf(company.getO()), Float.valueOf(company.getZ()))));
     }
 
-    private float setSpread(float f_y, float f_z){//f_y昨收價, f_z當盤成交價
-        Log.d(TAG, "setSpread, f_y = " + f_y);
+    private float setSpread(float f_o, float f_z){//f_o開盤價, f_z當盤成交價
+        Log.d(TAG, "setSpread, f_o = " + f_o);
         Log.d(TAG, "setSpread, f_z = " + f_z);
-        if (f_y > f_z) {
+        if (f_o > f_z) {
             setItemColor(false);
-            return f_y - f_z;
+            return f_o - f_z;
         } else {
             setItemColor(true);
-            return f_z - f_y;
+            return f_z - f_o;
         }
     }
 
