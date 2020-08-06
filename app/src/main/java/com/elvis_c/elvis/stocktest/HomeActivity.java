@@ -3,7 +3,9 @@ package com.elvis_c.elvis.stocktest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
+import com.elvis_c.elvis.stocktest.Common.HomeItemView;
 import com.elvis_c.elvis.stocktest.Common.StockItemView;
 import com.elvis_c.elvis.stocktest.controller.DataManagement;
 import com.elvis_c.elvis.stocktest.controller.SyncData;
@@ -15,6 +17,9 @@ public class HomeActivity extends AppCompatActivity {
     private SyncData syncData;
     private Handler syncHandler;
     private String url = DataManagement.urlData + DataManagement.twIndex;
+    private HomeItemView hv_search;
+    private HomeItemView hv_owns;
+    private HomeItemView hv_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,28 @@ public class HomeActivity extends AppCompatActivity {
     private void initView(){
         stockItemView = findViewById(R.id.si_view);
         stockItemView.initView();
-
+        hv_search = findViewById(R.id.hv_search);
+        hv_owns = findViewById(R.id.hv_owns);
+        hv_setting = findViewById(R.id.hv_setting);
+        hv_search.setOnClickListener(onClickListener);
+        hv_owns.setOnClickListener(onClickListener);
+        hv_setting.setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.hv_search:
+
+                    break;
+                case R.id.hv_owns:
+                    break;
+                case R.id.hv_setting:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
