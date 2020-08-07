@@ -29,6 +29,7 @@ public class DataManagement {
     private Context mContext = null;
     public static String urlData = "https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=";
     public static String test = "tse_1101.tw";
+    public static String stockCode = "tse_%s.tw";
     public static String twIndex = "tse_t00.tw";//發行量加權股價指數
     public static String ALL_COMPANY_CSV = "http://moneydj.emega.com.tw/js/StockTable.xls";
     public static String ALL_COMPANY_CSV2 = "https://quality.data.gov.tw/dq_download_csv.php?nid=18419&md5_url=9791ec942cbcb925635aa5612ae95588";
@@ -36,6 +37,9 @@ public class DataManagement {
     public static String CompanyCsv = "/CompanyCsv.csv";
     public static String DownloadDate = "/downloadDate.txt";
     public static String stockindextUrl = "https://www.twse.com.tw/exchangeReport/MI_INDEX?response=json&date=%s&type=IND";
+
+    public static int TYPE_NO_GROUP = 1001;
+    public static int TYPE_GROUP = 1002;
 
     private StockInfo stockInfo;
     private ArrayList<AllCompanyCode> allCompanyCodes = new ArrayList<>();
@@ -211,7 +215,7 @@ public class DataManagement {
     }
 
     public String currentTime2DateString(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd hh:mm:ss");
         String DateStr = "";
         try {
             DateStr = dateFormat.format(System.currentTimeMillis());
@@ -231,6 +235,10 @@ public class DataManagement {
 
     public interface CsvDownloadCallBack{
         void downloadFinish();
+    }
+
+    public String FormatFloat(float f){
+        return String.format("%.2f", f);
     }
 
 }

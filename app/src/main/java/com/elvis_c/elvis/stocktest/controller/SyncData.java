@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.elvis_c.elvis.stocktest.Model.Company;
 import com.elvis_c.elvis.stocktest.Model.StockInfo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -64,7 +67,7 @@ public class SyncData extends AsyncTask<String, String, String> {
             Log.d(TAG, "onPostExecute, getSysDate = " + stockInfo.getQueryTime().getSysDate());
             Log.d(TAG, "onPostExecute, getC = " + stockInfo.getMsgArray().get(0).getC());
             DataManagement.getInstance(mCtx).setStockInfo(stockInfo);
-            mSyncDataCallback.SyncFinish();
+            mSyncDataCallback.SyncFinish(stockInfo.getMsgArray());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,6 +82,6 @@ public class SyncData extends AsyncTask<String, String, String> {
     }
 
     public interface SyncDataCallback{
-        void SyncFinish();
+        void SyncFinish(List<Company> list);
     }
 }

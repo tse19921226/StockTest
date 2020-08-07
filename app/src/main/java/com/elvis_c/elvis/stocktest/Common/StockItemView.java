@@ -56,19 +56,24 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
         tv_StockName.setText(company.getN());
         tv_StockId.setText(company.getC());
         tv_StockPrice.setText(company.getZ());
-        tv_StockSpread.setText(String.valueOf(setSpread(Float.valueOf(company.getO()), Float.valueOf(company.getZ()))));
+        tv_StockSpread.setText(String.format("%.2f", setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
+        tv_StockPercentage.setText(String.format("%.2f", getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
     }
 
-    private float setSpread(float f_o, float f_z){//f_o開盤價, f_z當盤成交價
-        Log.d(TAG, "setSpread, f_o = " + f_o);
+    private float setSpread(float f_y, float f_z){//f_y昨收, f_z當盤成交價
+        Log.d(TAG, "setSpread, f_y = " + f_y);
         Log.d(TAG, "setSpread, f_z = " + f_z);
-        if (f_o > f_z) {
+        if (f_y > f_z) {
             setItemColor(false);
-            return f_o - f_z;
+            return f_y - f_z;
         } else {
             setItemColor(true);
-            return f_z - f_o;
+            return f_z - f_y;
         }
+    }
+
+    private float getPercentage (float f_y, float f_z){
+        return (f_z - f_y) / f_y * 100;
     }
 
     public void setStockIndexData(){

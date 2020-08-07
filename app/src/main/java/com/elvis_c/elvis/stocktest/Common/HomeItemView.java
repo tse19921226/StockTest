@@ -14,7 +14,6 @@ import com.elvis_c.elvis.stocktest.R;
 public class HomeItemView extends LinearLayout {
 
     private String TAG = getClass().getSimpleName();
-    private onClickListener mListener;
     private ImageView iv_item;
     private TextView tv_item;
 
@@ -51,14 +50,6 @@ public class HomeItemView extends LinearLayout {
         tv_item.setText(typedArray.getString(R.styleable.HomeItemView_itemText));
         tv_item.setTextColor(typedArray.getColor(R.styleable.HomeItemView_itemTextColor, 0));
         tv_item.setTextSize(typedArray.getDimension(R.styleable.HomeItemView_itemTextSize, 20));
-    }
-
-    public interface onClickListener{
-        void onClick();
-    }
-
-    public void setOnClickListener(onClickListener listener){
-        mListener = listener;
     }
 
 }

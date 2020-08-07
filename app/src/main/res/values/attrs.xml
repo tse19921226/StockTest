@@ -8,4 +8,13 @@
         <attr name="itemTextSize" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="StockInfoItem">
+        <attr name="itemTitle" format="string" />
+        <attr name="itemInfo" format="string" />
+        <attr name="itemTitleColor" format="color" />
+        <attr name="itemTitleSize" format="dimension" />
+        <attr name="itemInfoColor" format="color" />
+        <attr name="itemInfoSize" format="dimension" />
+    </declare-styleable>
+
 </resources>

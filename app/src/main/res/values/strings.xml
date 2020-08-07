@@ -6,4 +6,13 @@
     <string name="txt_optional_quotation">Optional quotation</string>
     <string name="txt_setting">Setting</string>
     <string name="text_search_hint">Please input stock code or Company name</string>
+    <string name="text_final_price">Final Price</string>
+    <string name="text_gap">Gap</string>
+    <string name="text_percentage">Percentage</string>
+    <string name="text_volume">Volume</string>
+    <string name="text_accumulation">Accumulation</string>
+    <string name="text_close_yesterday">Closed yesterday</string>
+    <string name="text_opening">Opening</string>
+    <string name="text_highest">Highest</string>
+    <string name="text_lowest">Lowest</string>
 </resources>

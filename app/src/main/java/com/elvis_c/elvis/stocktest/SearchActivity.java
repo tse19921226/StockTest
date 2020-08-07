@@ -1,5 +1,6 @@
 package com.elvis_c.elvis.stocktest;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -101,7 +102,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         } else {
-            String [] strings = new String[] {input};
+            String [] strings = input.split("");
             Log.d(TAG, "searchAllCompany, input.length = " + input.length());
             for (int i = 0; i < allCompanyCodes.size(); i++) {
 //                if (allCompanyCodes.get(i).getCompanyName().contains(input)) {
@@ -134,6 +135,11 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         public void onClick(String stockID) {
             Log.d(TAG, "adapterCallback, onClick, stockID = " + stockID);
+            Intent intent = new Intent();
+            intent.setClass(SearchActivity.this, StockInfoActivity.class);
+            intent.putExtra("TYPE", DataManagement.TYPE_NO_GROUP);
+            intent.putExtra("STOCK_ID", stockID);
+            startActivity(intent);
         }
     };
 

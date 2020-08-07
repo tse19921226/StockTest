@@ -8,8 +8,11 @@ import android.view.View;
 
 import com.elvis_c.elvis.stocktest.Common.HomeItemView;
 import com.elvis_c.elvis.stocktest.Common.StockItemView;
+import com.elvis_c.elvis.stocktest.Model.Company;
 import com.elvis_c.elvis.stocktest.controller.DataManagement;
 import com.elvis_c.elvis.stocktest.controller.SyncData;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -69,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
     SyncData.SyncDataCallback syncDataCallback = new SyncData.SyncDataCallback() {
         @Override
-        public void SyncFinish() {
+        public void SyncFinish(List<Company> list) {
             stockItemView.setStockData(DataManagement.getInstance(getApplicationContext()).getStockInfo().getMsgArray().get(0));
         }
     };

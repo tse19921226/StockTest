@@ -6,4 +6,13 @@
     <string name="txt_optional_quotation">自選股價</string>
     <string name="txt_setting">設定</string>
     <string name="text_search_hint">請輸入股票代號或公司名稱</string>
+    <string name="text_final_price">成交價</string>
+    <string name="text_gap">漲跌</string>
+    <string name="text_percentage">幅度</string>
+    <string name="text_volume">成交量</string>
+    <string name="text_accumulation">總量</string>
+    <string name="text_close_yesterday">昨收</string>
+    <string name="text_opening">開盤價</string>
+    <string name="text_highest">最高</string>
+    <string name="text_lowest">最低</string>
 </resources>

@@ -1,9 +1,237 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StockInfoActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_rew"
+            android:layout_toStartOf="@+id/tv_stockName"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/tv_stockName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Name"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_media_ff"
+            android:layout_toEndOf="@+id/tv_stockName"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_stockPrice"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/rl_title">
+
+        <TextView
+            android:id="@+id/tv_stock_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="230.55"
+            android:textSize="50sp"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_stock_spread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:text="0.333(0.5%)"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:text="08/22 19:32:00"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_stockPrice"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="3"
+            android:layout_weight="1">
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_c"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_final_price"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_spread"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_gap"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_percent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_percentage"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="3"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp">
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_volume"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_v"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_accumulation"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_y"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_close_yesterday"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:weightSum="3"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp">
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_o"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_opening"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_h"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_highest"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+            <com.elvis_c.elvis.stocktest.Common.StockInfoItem
+                android:id="@+id/si_l"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:itemTitle="@string/text_lowest"
+                app:itemTitleColor="@android:color/white"
+                app:itemTitleSize="5sp"
+                app:itemInfo="123"
+                app:itemInfoColor="@android:color/white"
+                app:itemInfoSize="5sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
