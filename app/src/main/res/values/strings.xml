@@ -5,4 +5,5 @@
     <string name="txt_stock_quotes">Stock quotes</string>
     <string name="txt_optional_quotation">Optional quotation</string>
     <string name="txt_setting">Setting</string>
+    <string name="text_search_hint">Please input stock code or Company name</string>
 </resources>

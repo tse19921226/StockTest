@@ -3,11 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/sv_stock"
+<!--    <android.support.v7.widget.SearchView-->
+<!--        android:id="@+id/sv_stock"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:autofillHints="input stock code"-->
+<!--        android:visibility="gone"/>-->
+
+<!--    <ListView-->
+<!--        android:id="@+id/lv_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/sv_stock"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@android:color/white"-->
+<!--        android:visibility="gone"/>-->
+
+    <EditText
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="@string/text_search_hint"
+        android:background="@android:color/white"
+        android:textSize="20sp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingStart="5dp"/>
 
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_searchResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_below="@+id/et_search"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 //        syncData.setmCtx(getApplicationContext());
 //        syncData.execute(url);
         new Thread(runnable).start();
+
+        //test start
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //test end
 
     }
 
     DataManagement.CsvDownloadCallBack csvDownloadCallBack = new DataManagement.CsvDownloadCallBack() {
         @Override
         public void downloadFinish() {
+            dataManagement.readCsvFile();
             gotoNextPage();
         }
     };

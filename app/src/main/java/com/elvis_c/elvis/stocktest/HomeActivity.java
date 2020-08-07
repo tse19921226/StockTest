@@ -1,5 +1,6 @@
 package com.elvis_c.elvis.stocktest;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +47,11 @@ public class HomeActivity extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.hv_search:
-
+                    syncData.unregisterSyncDataCallback();
+                    syncHandler.removeCallbacks(syncRunnable);
+                    Intent intent = new Intent();
+                    intent.setClass(HomeActivity.this, SearchActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.hv_owns:
                     break;
