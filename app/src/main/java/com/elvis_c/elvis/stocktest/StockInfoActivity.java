@@ -72,6 +72,9 @@ public class StockInfoActivity extends AppCompatActivity {
         si_o = findViewById(R.id.si_o);
         si_h = findViewById(R.id.si_h);
         si_l = findViewById(R.id.si_l);
+        iv_Previous.setOnClickListener(onClickListener);
+        iv_Next.setOnClickListener(onClickListener);
+        iv_Add.setOnClickListener(onClickListener);
         if (PageType == DataManagement.TYPE_NO_GROUP) {
             iv_Next.setVisibility(View.INVISIBLE);
             iv_Previous.setVisibility(View.INVISIBLE);
@@ -155,6 +158,20 @@ public class StockInfoActivity extends AppCompatActivity {
         super.onResume();
         syncHandler.postDelayed(syncRunnable, 5000);
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.iv_previous:
+                    break;
+                case R.id.iv_next:
+                    break;
+                case R.id.iv_add:
+                    break;
+            }
+        }
+    };
 
     Runnable syncRunnable = new Runnable() {
         @Override

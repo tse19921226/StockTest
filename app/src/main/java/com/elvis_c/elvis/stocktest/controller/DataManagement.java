@@ -1,10 +1,14 @@
 package com.elvis_c.elvis.stocktest.controller;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.elvis_c.elvis.stocktest.Model.AllCompanyCode;
 import com.elvis_c.elvis.stocktest.Model.StockInfo;
+import com.elvis_c.elvis.stocktest.sqllite.DBHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -43,6 +47,8 @@ public class DataManagement {
 
     private StockInfo stockInfo;
     private ArrayList<AllCompanyCode> allCompanyCodes = new ArrayList<>();
+    public DBHelper dbHelper;
+    private SQLiteDatabase database;
     //https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=20200401&type=MS
     //http://isin.twse.com.tw/isin/C_public.jsp?strMode=2
     //http://isin.twse.com.tw/isin/C_public.jsp?strMode=5
@@ -57,8 +63,27 @@ public class DataManagement {
         if (mInstance == null) {
             mInstance = new DataManagement();
             mInstance.mContext = context;
+            mInstance.openDB();
         }
         return mInstance;
+    }
+
+    private void openDB(){
+        dbHelper = new DBHelper(mContext);
+    }
+
+    private void addData2DB(String stockCode){
+        database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("_STOCKID", stockCode);
+        database.insert(DBHelper.TABLE_NAME, null, values);
+    }
+
+    private void deleteData2DB(String stockCode){
+//        database = dbHelper.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("_STOCKID", stockCode);
+//        database.delete(DBHelper.TABLE_NAME, null, values);
     }
 
     public void setStockInfo(StockInfo stockInfo){
