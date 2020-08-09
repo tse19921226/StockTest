@@ -15,4 +15,5 @@
     <string name="text_opening">Opening</string>
     <string name="text_highest">Highest</string>
     <string name="text_lowest">Lowest</string>
+    <string name="text_add_new_data">add new one</string>
 </resources>

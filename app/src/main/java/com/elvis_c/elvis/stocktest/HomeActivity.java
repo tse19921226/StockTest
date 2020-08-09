@@ -57,8 +57,18 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.hv_owns:
+                    syncData.unregisterSyncDataCallback();
+                    syncHandler.removeCallbacks(syncRunnable);
+                    Intent intent_owns = new Intent();
+                    intent_owns.setClass(HomeActivity.this, OwnsActivity.class);
+                    startActivity(intent_owns);
                     break;
                 case R.id.hv_setting:
+                    syncData.unregisterSyncDataCallback();
+                    syncHandler.removeCallbacks(syncRunnable);
+                    Intent intent_setting = new Intent();
+                    intent_setting.setClass(HomeActivity.this, SettingActivity.class);
+                    startActivity(intent_setting);
                     break;
             }
         }

@@ -2,6 +2,7 @@ package com.elvis_c.elvis.stocktest.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -49,6 +50,7 @@ public class DataManagement {
     private ArrayList<AllCompanyCode> allCompanyCodes = new ArrayList<>();
     public DBHelper dbHelper;
     private SQLiteDatabase database;
+    private ArrayList<String> favoriteList = new ArrayList<>();
     //https://www.twse.com.tw/exchangeReport/MI_INDEX?response=csv&date=20200401&type=MS
     //http://isin.twse.com.tw/isin/C_public.jsp?strMode=2
     //http://isin.twse.com.tw/isin/C_public.jsp?strMode=5
@@ -65,25 +67,51 @@ public class DataManagement {
             mInstance.mContext = context;
             mInstance.openDB();
         }
+        if (mInstance.dbHelper == null) {
+            mInstance.openDB();
+        }
         return mInstance;
     }
 
     private void openDB(){
+        Log.d(TAG, "openDB");
         dbHelper = new DBHelper(mContext);
     }
 
-    private void addData2DB(String stockCode){
+    public void addData2DB(String stockCode){
+        Log.d(TAG, "addData2DB, dbHelper = " + dbHelper);
         database = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("_STOCKID", stockCode);
         database.insert(DBHelper.TABLE_NAME, null, values);
     }
 
-    private void deleteData2DB(String stockCode){
-//        database = dbHelper.getWritableDatabase();
+    public void deleteData2DB(String stockCode){
+        database = dbHelper.getWritableDatabase();
 //        ContentValues values = new ContentValues();
 //        values.put("_STOCKID", stockCode);
 //        database.delete(DBHelper.TABLE_NAME, null, values);
+        String sql = "delete from " + DBHelper.TABLE_NAME + " where _STOCKID =" + stockCode;
+        database.execSQL(sql);
+    }
+
+    public void db2favoriteList(){
+        favoriteList.clear();
+        String sql = "SELECT * FROM " + DBHelper.TABLE_NAME;
+        database = dbHelper.getWritableDatabase();
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d(TAG, "cursor.getString(0) = " + cursor.getString(0));
+                Log.d(TAG, "cursor.getString(1) = " + cursor.getString(1));
+                favoriteList.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+        Log.d(TAG, "favoriteList.size = " + favoriteList.size());
+    }
+
+    public ArrayList<String> getFavoriteList() {
+        return favoriteList;
     }
 
     public void setStockInfo(StockInfo stockInfo){

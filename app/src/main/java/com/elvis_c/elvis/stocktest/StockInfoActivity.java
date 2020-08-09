@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.elvis_c.elvis.stocktest.Common.StockInfoItem;
 import com.elvis_c.elvis.stocktest.Model.Company;
@@ -76,13 +77,13 @@ public class StockInfoActivity extends AppCompatActivity {
         iv_Next.setOnClickListener(onClickListener);
         iv_Add.setOnClickListener(onClickListener);
         if (PageType == DataManagement.TYPE_NO_GROUP) {
-            iv_Next.setVisibility(View.INVISIBLE);
-            iv_Previous.setVisibility(View.INVISIBLE);
+            iv_Next.setVisibility(View.GONE);
+            iv_Previous.setVisibility(View.GONE);
             iv_Add.setVisibility(View.VISIBLE);
         } else {
             iv_Next.setVisibility(View.VISIBLE);
             iv_Previous.setVisibility(View.VISIBLE);
-            iv_Add.setVisibility(View.INVISIBLE);
+            iv_Add.setVisibility(View.GONE);
         }
     }
 
@@ -168,6 +169,9 @@ public class StockInfoActivity extends AppCompatActivity {
                 case R.id.iv_next:
                     break;
                 case R.id.iv_add:
+                    dataManagement.addData2DB(StockID);
+                    Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_add_new_data),
+                            Toast.LENGTH_SHORT).show();
                     break;
             }
         }

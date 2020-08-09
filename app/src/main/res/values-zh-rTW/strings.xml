@@ -15,4 +15,5 @@
     <string name="text_opening">開盤價</string>
     <string name="text_highest">最高</string>
     <string name="text_lowest">最低</string>
+    <string name="text_add_new_data">新增一筆</string>
 </resources>
