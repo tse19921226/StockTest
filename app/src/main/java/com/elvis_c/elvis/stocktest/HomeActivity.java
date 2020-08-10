@@ -80,6 +80,12 @@ public class HomeActivity extends AppCompatActivity {
         syncHandler.postDelayed(syncRunnable, 5000);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        syncHandler.postDelayed(syncRunnable, 5000);
+    }
+
     SyncData.SyncDataCallback syncDataCallback = new SyncData.SyncDataCallback() {
         @Override
         public void SyncFinish(List<Company> list) {
@@ -100,6 +106,12 @@ public class HomeActivity extends AppCompatActivity {
         syncData.setmCtx(getApplicationContext());
         syncData.execute(url);
         syncData.registerSyncDataCallback(syncDataCallback);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        syncHandler.removeCallbacks(syncRunnable);
     }
 
     @Override

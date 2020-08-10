@@ -66,8 +66,21 @@ public class SyncData extends AsyncTask<String, String, String> {
             Log.d(TAG, "onPostExecute, stockInfo.getRtcode() = " + stockInfo.getRtcode());
             Log.d(TAG, "onPostExecute, getSysDate = " + stockInfo.getQueryTime().getSysDate());
             Log.d(TAG, "onPostExecute, getC = " + stockInfo.getMsgArray().get(0).getC());
-            DataManagement.getInstance(mCtx).setStockInfo(stockInfo);
-            mSyncDataCallback.SyncFinish(stockInfo.getMsgArray());
+            Log.d(TAG, "onPostExecute, getZ = " + stockInfo.getMsgArray().get(0).getZ());
+            boolean sync_S = false;
+            for (int i = 0; i < stockInfo.getMsgArray().size(); i++) {
+                Log.d(TAG, "onPostExecute, getZ = " + stockInfo.getMsgArray().get(i).getZ());
+                if (stockInfo.getMsgArray().get(i).getZ().equals("-") || stockInfo.getMsgArray().get(i).getTv().equals("-")) {
+                    Log.d(TAG, "update data not success");
+                    sync_S = false;
+                } else {
+                    sync_S = true;
+                }
+            }
+            if (sync_S) {
+                DataManagement.getInstance(mCtx).setStockInfo(stockInfo);
+                mSyncDataCallback.SyncFinish(stockInfo.getMsgArray());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

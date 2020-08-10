@@ -160,6 +160,12 @@ public class StockInfoActivity extends AppCompatActivity {
         syncHandler.postDelayed(syncRunnable, 5000);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        syncHandler.postDelayed(syncRunnable, 5000);
+    }
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -201,4 +207,17 @@ public class StockInfoActivity extends AppCompatActivity {
             setData();
         }
     };
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        syncHandler.removeCallbacks(syncRunnable);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        syncData.unregisterSyncDataCallback();
+        syncHandler.removeCallbacks(syncRunnable);
+    }
 }

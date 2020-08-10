@@ -37,7 +37,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.stock_item, viewGroup, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.favorite_item, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
@@ -57,7 +57,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         private StockItemView stockItemView;
         public ViewHolder( View itemView) {
             super(itemView);
-            stockItemView.findViewById(R.id.si_favorite);
+            stockItemView = itemView.findViewById(R.id.si_favorite);
         }
     }
 

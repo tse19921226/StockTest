@@ -16,4 +16,8 @@
     <string name="text_highest">Highest</string>
     <string name="text_lowest">Lowest</string>
     <string name="text_add_new_data">add new one</string>
+    <string name="text_delete_all">Delete All</string>
+    <string name="text_delete_dialog_title">Delete All?</string>
+    <string name="text_delete_dialog_yes">Yes</string>
+    <string name="text_delete_dialog_no">No</string>
 </resources>

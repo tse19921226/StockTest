@@ -95,6 +95,11 @@ public class DataManagement {
         database.execSQL(sql);
     }
 
+    public void deleteAllFavorite(){
+        database = dbHelper.getWritableDatabase();
+        database.execSQL("delete from " + DBHelper.TABLE_NAME);
+    }
+
     public void db2favoriteList(){
         favoriteList.clear();
         String sql = "SELECT * FROM " + DBHelper.TABLE_NAME;

@@ -12,7 +12,7 @@ public class StockInfo implements Cloneable, Serializable {
     String rtmessage = "";
     int userDelay = 5000;
     List<Company> msgArray = new ArrayList<>();
-    String rtcode = "";
+    String rtcode = "1001";
 
     public void setQueryTime(QueryTime queryTime) {
         this.queryTime = queryTime;
