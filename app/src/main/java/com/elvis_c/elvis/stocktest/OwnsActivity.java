@@ -2,6 +2,7 @@ package com.elvis_c.elvis.stocktest;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +38,11 @@ public class OwnsActivity extends AppCompatActivity {
     private ImageView iv_deleteAll;
     private ProgressBar progressBar;
 
+    private enum DeleteType{
+        ONE,
+        ALL
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,8 @@ public class OwnsActivity extends AppCompatActivity {
         StockIds = dataManagement.getFavoriteList();
         Log.d(TAG, "initView, StockIds.size = " + StockIds.size());
         favoritesAdapter = new FavoritesAdapter(getApplicationContext());
+        favoritesAdapter.registerCallback(adapterItemClick);
+        favoritesAdapter.registerLongClickCallback(longClickCallback);
         rl_favorite.setLayoutManager(new GridLayoutManager(this, 2));
         rl_favorite.setAdapter(favoritesAdapter);
     }
@@ -76,13 +84,13 @@ public class OwnsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     private void dataSync(){
@@ -118,20 +126,46 @@ public class OwnsActivity extends AppCompatActivity {
 //                dataManagement.deleteAllFavorite();
 //                Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
 //                        Toast.LENGTH_SHORT).show();
-                showDeleteDialog();
+                showDeleteDialog(DeleteType.ALL);
             }
         }
     };
 
-    public void showDeleteDialog() {
+    FavoritesAdapter.AdapterItemClick adapterItemClick = new FavoritesAdapter.AdapterItemClick() {
+        @Override
+        public void onItemClick(String StockID) {
+            Log.d(TAG, "onItemClick, StockID = " + StockID);
+            Intent intent = new Intent();
+            intent.setClass(OwnsActivity.this, StockInfoActivity.class);
+            intent.putExtra("TYPE", DataManagement.TYPE_GROUP);
+            intent.putExtra("STOCK_ID", StockID);
+            startActivity(intent);
+        }
+    };
+
+    FavoritesAdapter.AdapterItemLongClickCallback longClickCallback = new FavoritesAdapter.AdapterItemLongClickCallback() {
+        @Override
+        public void onLongTouch(String StockID) {
+            Log.d(TAG, "onLongTouch, StockID = " + StockID);
+
+        }
+    };
+
+    public void showDeleteDialog(final DeleteType deleteType) {
         AlertDialog dialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(OwnsActivity.this);
-        builder.setMessage(getResources().getString(R.string.text_delete_dialog_title));
+        if (deleteType == DeleteType.ONE) {
+            builder.setMessage(getResources().getString(R.string.text_delete_dialog_title));
+        } else {
+            builder.setMessage(getResources().getString(R.string.text_delete_dialog_title));
+        }
         builder.setPositiveButton(getResources().getText(R.string.text_delete_dialog_yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dataManagement.deleteAllFavorite();
-                Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
-                        Toast.LENGTH_SHORT).show();
+                if (deleteType == DeleteType.ONE) {
+                    deleteOne();
+                } else {
+                    deleteAll();
+                }
             }
         });
         builder.setNegativeButton(getResources().getText(R.string.text_delete_dialog_no), new DialogInterface.OnClickListener() {
@@ -144,6 +178,16 @@ public class OwnsActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void deleteOne(){
+
+    }
+
+    private void deleteAll(){
+        dataManagement.deleteAllFavorite();
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
+                Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -153,6 +197,8 @@ public class OwnsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        favoritesAdapter.unregisterCallback();
+        favoritesAdapter.unregisterLongClickCallback();
         syncData.unregisterSyncDataCallback();
         syncHandler.removeCallbacks(syncRunnable);
     }

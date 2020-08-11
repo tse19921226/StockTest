@@ -53,11 +53,16 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
     }
 
     public void setStockData(Company company) {
-        tv_StockName.setText(company.getN());
-        tv_StockId.setText(company.getC());
-        tv_StockPrice.setText(company.getZ());
-        tv_StockSpread.setText(String.format("%.2f", setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
-        tv_StockPercentage.setText(String.format("%.2f", getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
+        try {
+            Log.d(TAG, "setStockData. company = " + company);
+            tv_StockName.setText(company.getN());
+            tv_StockId.setText(company.getC());
+            tv_StockPrice.setText(company.getZ());
+            tv_StockSpread.setText(String.format("%.2f", setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
+            tv_StockPercentage.setText(String.format("%.2f", getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private float setSpread(float f_y, float f_z){//f_y昨收, f_z當盤成交價
@@ -113,4 +118,5 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
     interface StockItemClickCallback{
         void onClick();
     }
+
 }

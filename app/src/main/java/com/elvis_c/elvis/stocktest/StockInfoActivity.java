@@ -41,6 +41,11 @@ public class StockInfoActivity extends AppCompatActivity {
     private Company company;
     private DataManagement dataManagement;
 
+    private enum ChangeType {
+        PREVIOUS,
+        NEXT
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,21 +93,25 @@ public class StockInfoActivity extends AppCompatActivity {
     }
 
     private void setData(){
-        tv_InfoTitle.setText(company.getN());
-        tv_stock_price.setText(dataManagement.FormatFloat(Float.valueOf(company.getZ())));
+        try {
+            tv_InfoTitle.setText(company.getN());
+            tv_stock_price.setText(dataManagement.FormatFloat(Float.valueOf(company.getZ())));
 //        tv_stock_spread.setText(String.format("%.2f", setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
-        tv_stock_spread.setText(dataManagement.FormatFloat(setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
-        tv_date.setText(dataManagement.currentTime2DateString());
-        si_c.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getZ())));
-        si_spread.setInfoText(tv_stock_spread.getText().toString());
+            tv_stock_spread.setText(dataManagement.FormatFloat(setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
+            tv_date.setText(dataManagement.currentTime2DateString());
+            si_c.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getZ())));
+            si_spread.setInfoText(tv_stock_spread.getText().toString());
 //        si_percent.setInfoText(String.format("%.2f", getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
-        si_percent.setInfoText(dataManagement.FormatFloat(getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
-        si_tv.setInfoText(company.getTv());
-        si_v.setInfoText(company.getV());
-        si_y.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getY())));
-        si_o.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getO())));
-        si_h.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getH())));
-        si_l.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getL())));
+            si_percent.setInfoText(dataManagement.FormatFloat(getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
+            si_tv.setInfoText(company.getTv());
+            si_v.setInfoText(company.getV());
+            si_y.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getY())));
+            si_o.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getO())));
+            si_h.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getH())));
+            si_l.setInfoText(dataManagement.FormatFloat(Float.valueOf(company.getL())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private float setSpread(float f_y, float f_z){//f_y昨收, f_z當盤成交價
@@ -114,6 +123,35 @@ public class StockInfoActivity extends AppCompatActivity {
         } else {
             setItemColor(true);
             return f_z - f_y;
+        }
+    }
+
+    private void changeData(ChangeType changeType){
+        Log.d(TAG, "changeData, changeType = " + changeType);
+        try {
+            int position = dataManagement.getFavoriteList().indexOf(StockID);
+            Log.d(TAG, "changeData, position = " + position);
+            if (position != -1) {
+                if (changeType == ChangeType.PREVIOUS) {
+                    if (position != 0) {
+                        closeAllSyncFunction();
+                        StockID = dataManagement.getFavoriteList().get(position - 1);
+                        url = DataManagement.urlData + String.format(DataManagement.stockCode, StockID);
+                        dataSync();
+                        syncHandler.postDelayed(syncRunnable, 0);
+                    }
+                } else {
+                    if (position != dataManagement.getFavoriteList().size() - 1) {
+                        closeAllSyncFunction();
+                        StockID = dataManagement.getFavoriteList().get(position + 1);
+                        url = DataManagement.urlData + String.format(DataManagement.stockCode, StockID);
+                        dataSync();
+                        syncHandler.postDelayed(syncRunnable, 0);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -157,13 +195,13 @@ public class StockInfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -171,8 +209,10 @@ public class StockInfoActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.iv_previous:
+                    changeData(ChangeType.PREVIOUS);
                     break;
                 case R.id.iv_next:
+                    changeData(ChangeType.NEXT);
                     break;
                 case R.id.iv_add:
                     dataManagement.addData2DB(StockID);
@@ -190,6 +230,12 @@ public class StockInfoActivity extends AppCompatActivity {
             syncHandler.postDelayed(syncRunnable, 5000);
         }
     };
+
+    private void closeAllSyncFunction(){
+        syncData.unregisterSyncDataCallback();
+        syncHandler.removeCallbacks(syncRunnable);
+        syncData = null;
+    }
 
     private void dataSync(){
         syncData = new SyncData();

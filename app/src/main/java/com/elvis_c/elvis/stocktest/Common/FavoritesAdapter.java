@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     private SyncData syncData;
     private String url;
     private Handler syncHandler;
-
+    private AdapterItemClick itemClick;
+    private AdapterItemLongClickCallback mLongClickCallback;
 
     public FavoritesAdapter(Context context){
         mContext = context;
@@ -43,9 +45,28 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     }
 
     @Override
-    public void onBindViewHolder( ViewHolder viewHolder, int i) {
-        viewHolder.stockItemView.initView();
-        viewHolder.stockItemView.setStockData(companies.get(i));
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
+        try {
+            viewHolder.stockItemView.initView();
+            viewHolder.stockItemView.setStockData(companies.get(i));
+
+            viewHolder.stockItemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClick.onItemClick(companies.get(viewHolder.getAdapterPosition()).getC());
+                }
+            });
+
+            viewHolder.stockItemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mLongClickCallback.onLongTouch(companies.get(viewHolder.getAdapterPosition()).getC());
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,6 +82,28 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
         }
     }
 
+    public void registerCallback(AdapterItemClick adapterItemClick){
+        itemClick = adapterItemClick;
+    }
 
+    public void unregisterCallback(){
+        itemClick = null;
+    }
+
+    public interface AdapterItemClick{
+        void onItemClick(String StockID);
+    }
+
+    public void registerLongClickCallback(AdapterItemLongClickCallback longClickCallback){
+        mLongClickCallback = longClickCallback;
+    }
+
+    public void unregisterLongClickCallback(){
+
+    }
+
+    public interface  AdapterItemLongClickCallback{
+        void onLongTouch(String StockID);
+    }
 
 }

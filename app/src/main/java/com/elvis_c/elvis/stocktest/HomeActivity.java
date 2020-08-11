@@ -77,13 +77,13 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        syncHandler.postDelayed(syncRunnable, 5000);
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     SyncData.SyncDataCallback syncDataCallback = new SyncData.SyncDataCallback() {
