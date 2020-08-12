@@ -37,6 +37,7 @@ public class OwnsActivity extends AppCompatActivity {
     private ArrayList<Company> companies = new ArrayList<>();
     private ImageView iv_deleteAll;
     private ProgressBar progressBar;
+    private String deleteStockTemp;
 
     private enum DeleteType{
         ONE,
@@ -147,7 +148,8 @@ public class OwnsActivity extends AppCompatActivity {
         @Override
         public void onLongTouch(String StockID) {
             Log.d(TAG, "onLongTouch, StockID = " + StockID);
-
+            deleteStockTemp = StockID;
+            showDeleteDialog(DeleteType.ONE);
         }
     };
 
@@ -179,13 +181,31 @@ public class OwnsActivity extends AppCompatActivity {
     }
 
     private void deleteOne(){
-
+        dataManagement.deleteData2DB(deleteStockTemp);
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
+                Toast.LENGTH_SHORT).show();
+        StockIds = dataManagement.getFavoriteList();
+        initUrl();
+        closeSync();
+        dataSync();
+        syncHandler.postDelayed(syncRunnable, 0);
     }
 
     private void deleteAll(){
         dataManagement.deleteAllFavorite();
         Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
                 Toast.LENGTH_SHORT).show();
+        StockIds.clear();
+        companies.clear();
+        closeSync();
+        favoritesAdapter.updateList(companies);
+        favoritesAdapter.notifyDataSetChanged();
+    }
+
+    private void closeSync(){
+        syncHandler.removeCallbacks(syncRunnable);
+        syncData.unregisterSyncDataCallback();
+        syncData = null;
     }
 
     @Override
