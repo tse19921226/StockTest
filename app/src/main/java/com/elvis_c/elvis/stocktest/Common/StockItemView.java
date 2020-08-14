@@ -57,7 +57,7 @@ public class StockItemView extends RelativeLayout implements View.OnClickListene
             Log.d(TAG, "setStockData. company = " + company);
             tv_StockName.setText(company.getN());
             tv_StockId.setText(company.getC());
-            tv_StockPrice.setText(company.getZ());
+            tv_StockPrice.setText(String.format("%.2f", Float.valueOf(company.getZ())));
             tv_StockSpread.setText(String.format("%.2f", setSpread(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))));
             tv_StockPercentage.setText(String.format("%.2f", getPercentage(Float.valueOf(company.getY()), Float.valueOf(company.getZ()))) + "%");
         } catch (Exception e) {

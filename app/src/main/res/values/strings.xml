@@ -20,4 +20,7 @@
     <string name="text_delete_dialog_title">Delete All?</string>
     <string name="text_delete_dialog_yes">Yes</string>
     <string name="text_delete_dialog_no">No</string>
+    <string name="text_delete_dialog_title_one">Delete This?</string>
+    <string name="text_delete_one">Delete</string>
+    <string name="text_demo">This is demo version</string>
 </resources>

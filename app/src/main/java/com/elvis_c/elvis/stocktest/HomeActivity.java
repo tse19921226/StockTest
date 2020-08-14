@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.elvis_c.elvis.stocktest.Common.HomeItemView;
@@ -119,5 +121,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onDestroy();
         syncData.unregisterSyncDataCallback();
         syncHandler.removeCallbacks(syncRunnable);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown, keycode = " + keyCode);
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            System.exit(0);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

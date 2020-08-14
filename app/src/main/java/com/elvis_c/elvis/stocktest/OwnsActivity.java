@@ -38,6 +38,7 @@ public class OwnsActivity extends AppCompatActivity {
     private ImageView iv_deleteAll;
     private ProgressBar progressBar;
     private String deleteStockTemp;
+    private int deletePositionTemp;
 
     private enum DeleteType{
         ONE,
@@ -109,6 +110,7 @@ public class OwnsActivity extends AppCompatActivity {
             companies.addAll(list);
             favoritesAdapter.updateList(companies);
             favoritesAdapter.notifyDataSetChanged();
+            syncHandler.postDelayed(syncRunnable, 5000);
         }
     };
 
@@ -116,7 +118,7 @@ public class OwnsActivity extends AppCompatActivity {
         @Override
         public void run() {
             dataSync();
-            syncHandler.postDelayed(syncRunnable, 5000);
+
         }
     };
 
@@ -146,9 +148,10 @@ public class OwnsActivity extends AppCompatActivity {
 
     FavoritesAdapter.AdapterItemLongClickCallback longClickCallback = new FavoritesAdapter.AdapterItemLongClickCallback() {
         @Override
-        public void onLongTouch(String StockID) {
+        public void onLongTouch(String StockID, int position) {
             Log.d(TAG, "onLongTouch, StockID = " + StockID);
             deleteStockTemp = StockID;
+            deletePositionTemp = position;
             showDeleteDialog(DeleteType.ONE);
         }
     };
@@ -157,7 +160,7 @@ public class OwnsActivity extends AppCompatActivity {
         AlertDialog dialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(OwnsActivity.this);
         if (deleteType == DeleteType.ONE) {
-            builder.setMessage(getResources().getString(R.string.text_delete_dialog_title));
+            builder.setMessage(getResources().getString(R.string.text_delete_dialog_title_one));
         } else {
             builder.setMessage(getResources().getString(R.string.text_delete_dialog_title));
         }
@@ -181,12 +184,17 @@ public class OwnsActivity extends AppCompatActivity {
     }
 
     private void deleteOne(){
+        Log.d(TAG, "delete One, deletePositionTemp = " + deletePositionTemp);
         dataManagement.deleteData2DB(deleteStockTemp);
-        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_all),
-                Toast.LENGTH_SHORT).show();
-        StockIds = dataManagement.getFavoriteList();
-        initUrl();
         closeSync();
+        Toast.makeText(getApplicationContext(), getResources().getText(R.string.text_delete_one),
+                Toast.LENGTH_SHORT).show();
+//        StockIds = dataManagement.getFavoriteList();
+        StockIds.remove(deletePositionTemp);
+        companies.remove(deletePositionTemp);
+        favoritesAdapter.updateList(companies);
+        favoritesAdapter.notifyDataSetChanged();
+        initUrl();
         dataSync();
         syncHandler.postDelayed(syncRunnable, 0);
     }
@@ -219,7 +227,9 @@ public class OwnsActivity extends AppCompatActivity {
         super.onDestroy();
         favoritesAdapter.unregisterCallback();
         favoritesAdapter.unregisterLongClickCallback();
-        syncData.unregisterSyncDataCallback();
-        syncHandler.removeCallbacks(syncRunnable);
+        if (syncData != null) {
+            syncData.unregisterSyncDataCallback();
+            syncHandler.removeCallbacks(syncRunnable);
+        }
     }
 }

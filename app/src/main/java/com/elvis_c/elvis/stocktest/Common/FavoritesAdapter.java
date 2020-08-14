@@ -60,7 +60,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
             viewHolder.stockItemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    mLongClickCallback.onLongTouch(companies.get(viewHolder.getAdapterPosition()).getC());
+                    mLongClickCallback.onLongTouch(companies.get(viewHolder.getAdapterPosition()).getC(), viewHolder.getAdapterPosition());
                     return true;
                 }
             });
@@ -103,7 +103,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.View
     }
 
     public interface  AdapterItemLongClickCallback{
-        void onLongTouch(String StockID);
+        void onLongTouch(String StockID, int position);
     }
 
 }
