@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">簡易股票</string>
 
     <string name="txt_loading">載入中...</string>
     <string name="txt_stock_quotes">類股報價</string>

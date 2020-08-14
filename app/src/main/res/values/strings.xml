@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StockTest</string>
+    <string name="app_name">Stock Lightweight</string>
 
     <string name="txt_loading">Loading...</string>
     <string name="txt_stock_quotes">Stock quotes</string>
